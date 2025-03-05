@@ -14,6 +14,11 @@ function adicionarAmigo() {
     return;
   }
 
+  if (amigos.includes(nome)) {
+    // Verifica se o nome já está na lista
+    alert("Este nome já foi adicionado!");
+    return;
+  }
   amigos.push(nome); // Adiciona o nome ao array
   input.value = ""; // Limpa o campo de entrada
 
@@ -23,14 +28,26 @@ function adicionarAmigo() {
 // Função para atualizar a lista exibida na tela
 function atualizarLista() {
   const lista = document.getElementById("listaAmigos");
-  lista.innerHTML = ""; // Limpa a lista antes de atualizar
+  lista.innerHTML = "";
 
-  amigos.forEach((amigo) => {
-    // Percorre o array de amigos
-    const li = document.createElement("li"); // Cria um elemento <li>
-    li.textContent = amigo; // Adiciona o nome dentro da <li>
-    lista.appendChild(li); // Adiciona o <li> à lista
+  amigos.forEach((amigo, index) => {
+    const li = document.createElement("li");
+    li.textContent = amigo;
+
+    // Criar botão de remover
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "❌";
+    botaoRemover.classList.add("remove-btn");
+    botaoRemover.onclick = () => removerAmigo(index);
+
+    li.appendChild(botaoRemover);
+    lista.appendChild(li);
   });
+}
+
+function removerAmigo(index) {
+  amigos.splice(index, 1); // Remove o amigo do array
+  atualizarLista(); // Atualiza a lista exibida
 }
 
 function sortearAmigo() {
